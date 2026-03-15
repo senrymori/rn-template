@@ -1,4 +1,4 @@
-import {AppThemeColors} from './light-colors.ts';
+import { AppThemeColors } from './light-colors.ts';
 
 /**
  * Dark theme colors
@@ -46,12 +46,12 @@ export const darkColors: AppThemeColors = {
   rose900: '#FFF1F2',
 
   // Main colors
-  primary50: '#1A001F',
-  primary100: '#2B0035',
-  primary200: '#3F004E',
-  primary300: '#660080',
-  primary400: '#DD47FF',
-  primary500: '#E56EFF',
+  primary50: '#2B0035',
+  primary100: '#3F004E',
+  primary200: '#660080',
+  primary300: '#B22FD4',
+  primary400: '#E56EFF',
+  primary500: '#E987FF',
   primary600: '#EEA3FF',
   primary700: '#F3BDFF',
   primary800: '#F8D6FF',
@@ -69,8 +69,8 @@ export const darkColors: AppThemeColors = {
   textAlternative: '#0F0806',
 
   // Border colors
-  border: '#2B1A13',
-  borderSecondary: '#402B24',
+  border: '#232323',
+  borderSecondary: '#3C3C3C',
 
   // Status colors
   success: '#10B981',

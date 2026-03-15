@@ -3,6 +3,7 @@ import { StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { Typography } from '@ui-kits/Typography/Typography';
 import { IconEnum } from '@ui-kits/Typography/typography-consts';
 import { useAppThemeColors } from '@providers/theme/AppThemeColorsProvider';
+import { useThemeConfig } from '@providers/theme/ThemeConfigProvider.tsx';
 
 export const BadgeVariant = {
   Fill: 'Fill',
@@ -25,10 +26,14 @@ interface BadgeProps {
 
 export const Badge: FC<BadgeProps> = function (props) {
   const { variant } = props;
+  const { isLight } = useThemeConfig();
   const themeColors = useAppThemeColors();
 
   const badgeStyles = useMemo(() => {
-    const backgroundColor = props.color ?? props.backgroundColor ?? themeColors.backgroundSecondary;
+    const backgroundColor =
+      props.color ??
+      props.backgroundColor ??
+      (isLight ? themeColors.backgroundTertiary : themeColors.backgroundSecondary);
     const borderColor = props.color ?? props.borderColor ?? themeColors.border;
     switch (variant) {
       case BadgeVariant.Fill:
@@ -47,7 +52,7 @@ export const Badge: FC<BadgeProps> = function (props) {
           borderColor: borderColor,
         };
     }
-  }, [variant]);
+  }, [variant, themeColors]);
 
   return (
     <View style={[styles.container, badgeStyles, props.style]}>

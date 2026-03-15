@@ -47,6 +47,9 @@ export const sharedLayoutStyles = StyleSheet.create({
   mhLayout: {
     marginHorizontal: layoutPadding,
   },
+  border1: {
+    borderWidth: 1,
+  },
   br8: { borderRadius: 8 },
   br12: { borderRadius: 12 },
   br16: { borderRadius: 16 },

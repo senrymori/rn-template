@@ -22,10 +22,10 @@ const recordInputColors: Record<InputState, InputColorConfig> = {
     error: 'error',
   },
   ['active-dark']: {
-    border: 'primary100',
+    border: 'textSecondary',
     background: 'background',
     text: 'text',
-    label: 'primary200',
+    label: 'textSecondary',
     placeholder: 'textTertiary',
     error: 'error',
   },
