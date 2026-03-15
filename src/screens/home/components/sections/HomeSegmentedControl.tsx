@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { HomeSection } from '@screens/home/components/HomeSection.tsx';
-import { SegmentedControl } from '@ui-kits/SegmentedControl.tsx';
+import { SegmentedControl } from '@ui-kits/SegmentedControl/SegmentedControl.tsx';
 
 interface Props {}
 
