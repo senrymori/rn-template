@@ -2,124 +2,96 @@
 
 ## TypeScript
 
-- Всегда используй TypeScript, избегай `any` где это возможно
-- Используй строгую типизацию, явно указывай типы для пропсов, состояний и функций
-- Для React компонентов используй функциональные компоненты с TypeScript
-- Используй интерфейсы для пропсов компонентов, типы для утилит и сложных структур
-- Применяй `type` для union types, `interface` для объектов и компонентов
-- Если код пишется не внутри класса/компонента, то создавай function verbName (вместо стрелочных функций)
-- Если создаешь переменную с типом `Record`, то нейминг должен начинаться с `record`, пример
-  `const recordSize: Record<number, >`
-- При вызове хука `useAppThemeColors` переменная должна называться `themeColors`; при вызове `useAppThemeStyles` —
-  `themeStyles`
+- Always use TypeScript, avoid `any` where possible
+- Use strict typing, explicitly declare types for props, state, and functions
+- Use functional components with TypeScript for React components
+- Use interfaces for component props, types for utilities and complex structures
+- Use `type` for union types, `interface` for objects and components
+- For code written outside a class/component, create `function verbName` (instead of arrow functions)
+- If creating a variable with type `Record`, the name must start with `record`, e.g. `const recordSize: Record<number, >`
+- When calling the `useAppThemeColors` hook, the variable must be named `themeColors`; when calling `useAppThemeStyles` — `themeStyles`
 
 ## Naming Conventions
 
-- **Компоненты**: PascalCase (`UserProfile.tsx`, `WorkoutCard.tsx`)
-- **Хуки**: camelCase с префиксом `use` (`useAuth.ts`, `useWorkoutData.ts`); если хук специфичен для компонента — файл
-  называется `name-hooks.ts` (`input-hooks.ts`, `user-card-hooks.ts`)
-- **Утилиты и константы**: camelCase (`formatDate.ts`, `apiClient.ts`)
-- **Константы из env**: UPPER_SNAKE_CASE (`API_BASE_URL`)
-- **Обычные константы**: camelCase (`isIos`, `maxImageLimit`)
-- **Enum константы**: PascalCaseEnum (`isIos`, `maxImageLimit`)
-- **Файлы**: соответствуют экспортируемому элементу (компонент = PascalCase, хук = camelCase с use), если несколько
-  экспортных элементов, то нейминг по общему содержимому и контексту, где файл создается
-- **Папки**: kebab-case для многословных названий (`personal-training/`, `workout-rework/`)
+- **Components**: PascalCase (`UserProfile.tsx`, `WorkoutCard.tsx`)
+- **Hooks**: camelCase with `use` prefix (`useAuth.ts`, `useWorkoutData.ts`); if a hook is component-specific — the file is named `name-hooks.ts` (`input-hooks.ts`, `user-card-hooks.ts`)
+- **Utilities and constants**: camelCase (`formatDate.ts`, `apiClient.ts`)
+- **Env constants**: UPPER_SNAKE_CASE (`API_BASE_URL`)
+- **Regular constants**: camelCase (`isIos`, `maxImageLimit`)
+- **Enum constants**: PascalCaseEnum (`isIos`, `maxImageLimit`)
+- **Files**: match the exported element (component = PascalCase, hook = camelCase with use); if multiple exports, name by the general content and context where the file is created
+- **Folders**: kebab-case for multi-word names (`personal-training/`, `workout-rework/`)
 
 ## React Native Components
 
-- Когда объявляешь компонент, указывай ему сразу типа `FC` из react (пример:
-  `const ComponentName: FC<Props> = functions(props) {}`)
-- Если компонент ожидает только children (часто в контекстах), то не надо создавать для него отдельный тип, можешь
-  использовать PropsWithChildren (пример: `Provider: FC<PropsWithChildren> = function ({ children })`)
-- Используй функциональные компоненты с хуками
-- Разделяй логику и представление: хуки для логики, компоненты для UI
-- Используй `StyleSheet.create` для стилей, избегай inline стилей кроме динамических значений (стили локальные для
-  компонента не выносятся в отдельный файл)
-- Перед добавлением нового стиля в компонент проверь `sharedLayoutStyles` из `@ui-kits/shared-styles.ts` — если нужный
-  стиль уже есть (gap, margin, padding, flex-направления и т.д.), используй его вместо создания локального дубликата
-- Для условного рендеринга используй тернарные операторы или `&&`, избегай сложных вложенных условий
-- Используй `memo` для оптимизации только когда это действительно нужно
-- Не используй `React.memo` импортируй сразу `memo` из react библиотеки
-- Если возвращаемый JSX компонента привышает 100 строк, то выноси содержимое в компоненты
-- Не создавай несколько компонентов в одном файле — каждый компонент должен находиться в отдельном файле
-- Не делай такую деструкторизацию в пропсах: `function ({ example1, example2, ...rest })`, лучше делай так
-  `const { example1, example2, ...rest } = props`
-- Не деструктурируй props без необходимости — обращайся напрямую через `props.fieldName`. Деструктуризация оправдана
-  только когда есть реальный смысл (наследование от другого интерфейса, spread `...rest` и т.д.). Прямое обращение через
-  `props.` позволяет легко отличать пропсы от локальных переменных внутри компонента
-- Не используй строковые литералы в JSX без фигурных скобок: вместо `<Example field="test">` нужно всегда писать
-  `<Example field={'test'}`. Это правило распространяется на все props, передаваемые компонентам: значения всегда должны
-  быть внутри фигурных скобок.
-- При рендере списков через `.map()` выноси логику рендера в отдельную функцию `renderItem` и вызывай
-  `.map(renderItem)` — это сохраняет JSX чистым. `renderItem` должна возвращать **отдельный React-компонент** (
-  `<ItemComponent />`), а не JSX-секцию напрямую. Сама функция `renderItem` должна быть статичной (объявлена вне
-  компонента) — если это невозможно из-за замыкания на state/props, оберни её в `useCallback`
-- Если компонент создан для отрисовки элементов списка определённого типа, передавай один пропс `item` с типом элемента
-  вместо множества отдельных пропсов. Пропсы, не относящиеся к item (например `color` из темы), передаются отдельно
-- Экраны навигации — это UI компоненты. Все навигационные типы (ParamList, ScreenProps, NavigationProps) должны
-  оставаться в слое навигации (`src/navigation/`), в файле типов соответствующего стека/таба (`name-stack-types.ts`).
-  Каждый файл типов экспортирует три типа: `ParamList` (параметры маршрутов), `NavigationScreenProps<T>` (полные пропсы
-  экрана через `NativeStackScreenProps`), `NavigationHookProps<T>` (только навигация через `NativeStackNavigationProp`).
-  Экраны получают `navigation` и `route` через деструктуризацию пропсов — они приходят автоматически от навигатора,
-  экран типизирует свои пропсы через `ScreenProps<'ScreenName'>`. Компоненты внутри экранов используют хуки
-  `useNavigation()` / `useRoute()`, которые типизируются через глобальную декларацию `ReactNavigation.RootParamList`.
-- В экранах для отступов, учитывающих safe area устройства, используй стили из хука `useSafeAreaStyles()` вместо ручного
-  задания padding/margin. Например, `safeAreaStyles.pLayoutGrowWithSpace` для контейнера экрана.
-- Для скроллящихся экранов с инпутами используй `KeyboardAwareScrollView` из `react-native-keyboard-controller` вместо
-  `ScrollView` или `KeyboardAvoidingView` — он автоматически поднимает контент над клавиатурой. `KeyboardProvider`
-  должен быть подключён в корне приложения (`App.tsx`).
+- When declaring a component, immediately type it as `FC` from react (e.g. `const ComponentName: FC<Props> = function(props) {}`)
+- If a component only expects children (common in contexts), don't create a separate type — use PropsWithChildren (e.g. `Provider: FC<PropsWithChildren> = function ({ children })`)
+- Use functional components with hooks
+- Separate logic from presentation: hooks for logic, components for UI
+- Use `StyleSheet.create` for styles, avoid inline styles except for dynamic values (local component styles should not be extracted into a separate file)
+- Before adding a new style to a component, check `sharedLayoutStyles` from `@ui-kits/shared-styles.ts` — if the needed style already exists (gap, margin, padding, flex directions, etc.), use it instead of creating a local duplicate
+- Use ternary operators or `&&` for conditional rendering, avoid complex nested conditions
+- Use `memo` for optimization only when truly necessary
+- Don't use `React.memo` — import `memo` directly from react
+- If the returned JSX of a component exceeds 100 lines, extract the content into components
+- Don't create multiple components in one file — each component must be in its own file
+- Don't destructure in props like this: `function ({ example1, example2, ...rest })`, instead do `const { example1, example2, ...rest } = props`
+- Don't destructure props unnecessarily — access them directly via `props.fieldName`. Destructuring is only justified when there is a real reason (inheriting from another interface, spreading `...rest`, etc.). Direct access via `props.` makes it easy to distinguish props from local variables inside a component
+- Don't use string literals in JSX without curly braces: instead of `<Example field="test">` always write `<Example field={'test'}>`. This applies to all props passed to components: values must always be inside curly braces
+- When rendering lists with `.map()`, extract the render logic into a separate `renderItem` function and call `.map(renderItem)` — this keeps JSX clean. `renderItem` must return a **separate React component** (`<ItemComponent />`), not inline JSX. The `renderItem` function itself must be static (declared outside the component) — if that's impossible due to closure over state/props, wrap it in `useCallback`
+- If a component is created to render list items of a specific type, pass a single `item` prop with the item type instead of multiple individual props. Props unrelated to the item (e.g. `color` from theme) are passed separately
+- Navigation screens are UI components. All navigation types (ParamList, ScreenProps, NavigationProps) must remain in the navigation layer (`src/navigation/`), in the types file of the corresponding stack/tab (`name-stack-types.ts`). Each types file exports three types: `ParamList` (route params), `NavigationScreenProps<T>` (full screen props via `NativeStackScreenProps`), `NavigationHookProps<T>` (navigation only via `NativeStackNavigationProp`). Screens receive `navigation` and `route` via props destructuring — they come automatically from the navigator, and the screen types its props via `ScreenProps<'ScreenName'>`. Components inside screens use `useNavigation()` / `useRoute()` hooks, typed via the global `ReactNavigation.RootParamList` declaration
+- In screens, for safe area device insets, use styles from the `useSafeAreaStyles()` hook instead of manually setting padding/margin. For example, `safeAreaStyles.pLayoutGrowWithSpace` for the screen container
+- For scrollable screens with inputs, use `KeyboardAwareScrollView` from `react-native-keyboard-controller` instead of `ScrollView` or `KeyboardAvoidingView` — it automatically lifts content above the keyboard. `KeyboardProvider` must be connected at the app root (`App.tsx`)
 
 ## Imports
 
-- Группируй импорты: сначала внешние библиотеки, потом внутренние модули
-- Используй абсолютные импорты через алиасы (если настроены) или относительные от `src/`
-- Порядок: React/React Native → сторонние библиотеки → внутренние компоненты → утилиты → типы → константы
-- Никогда не исользуй default exports, старайся использовать named exports
-- Для импорта изображений и других ассетов используй `import`, а не `require()` (TS80005: require call may be converted
-  to an import)
+- Group imports: external libraries first, then internal modules
+- Use absolute imports via aliases (if configured) or relative from `src/`
+- Order: React/React Native → third-party libraries → internal components → utilities → types → constants
+- Never use default exports, prefer named exports
+- For importing images and other assets use `import`, not `require()` (TS80005: require call may be converted to an import)
 
 ## Code Formatting
 
-- Используй форматирование Prettier
+- Use Prettier formatting
 
 ## Comments
 
-- Комментарии строго на английском языке
-- Используй комментарии для объяснения "почему", а не "что" (за исключением больших секций с общим смыслом в 10+ строк)
-- JSDoc комментарии для публичных функций и компонентов
+- Comments strictly in English
+- Use comments to explain "why", not "what" (except for large sections with general meaning spanning 10+ lines)
+- JSDoc comments for public functions and components
 
 ## Error Handling
 
-- Используй try-catch для асинхронных операций
-- Обрабатывай ошибки явно, не проглатывай их (через console.error, а не console.log)
-- Используй типизированные ошибки где возможно
-- Логируй ошибки в development режиме
+- Use try-catch for async operations
+- Handle errors explicitly, don't swallow them (via console.error, not console.log)
+- Use typed errors where possible
+- Log errors in development mode
 
 ## Async/Await
 
-- Предпочитай async/await вместо Promise chains
-- Используй Promise.all для параллельных запросов
-- Обрабатывай loading и error состояния явно
+- Prefer async/await over Promise chains
+- Use Promise.all for parallel requests
+- Handle loading and error states explicitly
 
 ## State Management
 
-- Используй useState для локального состояния компонента
-- Используй useReducer для сложного локального состояния
-- Используй tanstack query для получения ассинхронных данных
-- Для глобального состояния используй Context API или выбранную библиотеку (если есть)
-- Избегай prop drilling, используй Context или композицию компонентов
+- Use useState for local component state
+- Use useReducer for complex local state
+- Use tanstack query for fetching async data
+- For global state use Context API or a chosen library (if available)
+- Avoid prop drilling, use Context or component composition
 
 ## Performance
 
-- Используй useMemo и useCallback только когда есть реальная необходимость
-- Избегай создания объектов и функций в render без мемоизации если они передаются как пропсы
-- Используй FlatList для длинных списков, не ScrollView
-- Оптимизируй изображения, используй подходящие форматы и размеры (используй работу с кэшем и предзагрузкой с
-  отображением loader'а при подгрузки)
+- Use useMemo and useCallback only when there is a real need
+- Avoid creating objects and functions in render without memoization if they are passed as props
+- Use FlatList for long lists, not ScrollView
+- Optimize images, use appropriate formats and sizes (use caching and preloading with a loader displayed during loading)
 
 ## Localization
 
-- Никогда не хардкодь текст инлайн в JSX — все строки должны быть локализованы
-- В компонентах используй `translations` из хука `useLanguage()` для получения переводов
-- Для статичного использования вне компонентов (утилиты, константы) используй `localizedStrings` напрямую
+- Never hardcode text inline in JSX — all strings must be localized
+- In components use `translations` from the `useLanguage()` hook to get translations
+- For static usage outside components (utilities, constants) use `localizedStrings` directly

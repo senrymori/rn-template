@@ -1,51 +1,46 @@
 # Project Structure Rules
 
-## Общая структура `src/`
+## General `src/` Structure
 
-Проект организован по своей собственной структуре.
+The project is organized according to its own structure.
 
-## Папки и их назначение
+## Folders and Their Purpose
 
 ### `src/assets/`
 
-- **`fonts/`** - файлы шрифтов (.ttf, .otf)
-- **`images/`** - изображения, иконки, статические ресурсы
-- Используй осмысленные имена файлов: `logo-primary.png`, `icon-user.svg`
+- **`fonts/`** - font files (.ttf, .otf)
+- **`images/`** - images, icons, static resources
+- Use meaningful file names: `logo-primary.png`, `icon-user.svg`
 
 ### `src/components/`
 
-- Переиспользуемые UI компоненты (могут содержать модели из "бизнес логики")
-- **`ui-kits/`** - системные UI компоненты (Button, Input, Switch и т.д.), не содержат моделей из бизнес логики
-- Компоненты группируются по функциональности в подпапки если их много
-- Если компонент сложный и содержит внутри много логики, то может быть вынесен в отдельную папку и декомпозирован на
-  файлы (компонент + утилиты + константы + типы)
-- Пример: `components/Button/Button.tsx`, `components/Button/button-consts.ts`, `components/Button/button-utils.ts`,
-  `components/Button/button-types.ts`, `components/Button/button-hooks.ts`
+- Reusable UI components (may contain business logic models)
+- **`ui-kits/`** - system UI components (Button, Input, Switch, etc.), do not contain business logic models
+- Components are grouped by functionality into subfolders if there are many
+- If a component is complex and contains a lot of logic, it can be moved to a separate folder and decomposed into files (component + utilities + constants + types)
+- Example: `components/Button/Button.tsx`, `components/Button/button-consts.ts`, `components/Button/button-utils.ts`, `components/Button/button-types.ts`, `components/Button/button-hooks.ts`
 
 ### `src/constants/`
 
-- Глобальные константы приложения не относящиеся к функционалу конкретного экрана или сущности, а имеющие отношение к
-  приложению в целом или полезным ресурсам
-- `platform-consts.ts` - все что относится к определению платформы и версий
-- `permissions-consts` - все константы, что связаны с разрешениями на устройствах (доступ к файлам и тд)
-- `dropdown-options` - все константы nameOptions для Dropdown инпутов в приложении
+- Global application constants not related to any specific screen or entity, but related to the application as a whole or useful shared resources
+- `platform-consts.ts` - everything related to platform and version detection
+- `permissions-consts` - all constants related to device permissions (file access, etc.)
+- `dropdown-options` - all nameOptions constants for Dropdown inputs in the app
 
 ### `src/hooks/`
 
-- Кастомные React хуки
-- Именование: `use` + название (`useAuth.ts`, `useWorkout.ts`)
-- Один хук = один файл
-- Хуки для глобальных событий как таймер или пуши, но не для бизнес-логики (бизнес-логика внутри родительских экранов)
+- Custom React hooks
+- Naming: `use` + name (`useAuth.ts`, `useWorkout.ts`)
+- One hook = one file
+- Hooks for global events like timers or push notifications, but not for business logic (business logic lives inside parent screens)
 
 ### `src/navigation/`
 
-- Конфигурация навигации (React Navigation)
-- Каждый стек или таб-навигатор оформляется в отдельную папку внутри `src/navigation/`
-- Папка содержит файл навигатора `NameStack.tsx` / `NameTabs.tsx` и файл типов `name-stack-types.ts` /
-  `name-tabs-types.ts`
-- Файл типов содержит: `ParamList` (параметры маршрутов), `NavigationScreenProps` (пропсы экрана с `navigation` и
-  `route`), `NavigationHookProps` (только `navigation` для хуков и дочерних компонентов)
-- Пример структуры:
+- Navigation configuration (React Navigation)
+- Each stack or tab navigator is placed in a separate folder inside `src/navigation/`
+- The folder contains a navigator file `NameStack.tsx` / `NameTabs.tsx` and a types file `name-stack-types.ts` / `name-tabs-types.ts`
+- The types file contains: `ParamList` (route params), `NavigationScreenProps` (screen props with `navigation` and `route`), `NavigationHookProps` (only `navigation` for hooks and child components)
+- Example structure:
   ```
   navigation/
     onboarding-stack/
@@ -58,20 +53,18 @@
 
 ### `src/providers/`
 
-- React Context провайдеры
-- Глобальные провайдеры состояния, темы, аутентификации
-- Один провайдер = один файл или папка если сложный
+- React Context providers
+- Global providers for state, theme, authentication
+- One provider = one file or folder if complex
 
 ### `src/screens/`
 
-- Экраны приложения (страницы)
-- Группируй по фичам/доменам: `auth/`, `workout/`, `profile/`
-- Каждый экран в своей папке если содержит несколько файлов
-- Если экрану нужны локальные компоненты (используемые только внутри этого экрана), они размещаются в папке
-  `components/` на уровне экрана
-- Аналогично для утилит, констант и типов, специфичных для экрана — они размещаются в соответствующих файлах на уровне
-  папки экрана
-- Пример структуры экрана:
+- Application screens (pages)
+- Group by features/domains: `auth/`, `workout/`, `profile/`
+- Each screen in its own folder if it contains multiple files
+- If a screen needs local components (used only within that screen), they are placed in a `components/` folder at the screen level
+- Similarly for utilities, constants, and types specific to the screen — they are placed in corresponding files at the screen folder level
+- Example screen structure:
   ```
   screens/
     splash/
@@ -80,38 +73,37 @@
         PulseCircle.tsx
       splash-consts.ts
   ```
-- Пример: `screens/auth/LoginScreen.tsx`, `screens/workout/WorkoutListScreen.tsx`
+- Example: `screens/auth/LoginScreen.tsx`, `screens/workout/WorkoutListScreen.tsx`
 
 ### `src/server/`
 
-- Backend логика, если используется локальный сервер
-- **`service/`** - сервисные классы для бизнес-логики
-- **`typeorm/`** - TypeORM конфигурация и модели
-  - **`database/`** - конфигурация БД, миграции
-  - **`models/`** - TypeORM entity модели
-- Используй для серверной части если приложение включает локальный backend
+- Backend logic, if a local server is used
+- **`service/`** - service classes for business logic
+- **`typeorm/`** - TypeORM configuration and models
+  - **`database/`** - DB configuration, migrations
+  - **`models/`** - TypeORM entity models
+- Use for the server part if the app includes a local backend
 
 ### `src/utils/`
 
-- Утилитарные функции
-- Хелперы, форматирование, валидация, трансформации данных
-- Группируй по функциональности: `date-utils.ts`, `validation-utils.ts`, `common-utils.ts`
-- Функции должны быть pure где возможно
+- Utility functions
+- Helpers, formatting, validation, data transformations
+- Group by functionality: `date-utils.ts`, `validation-utils.ts`, `common-utils.ts`
+- Functions should be pure where possible
 
-## Правила организации файлов
+## File Organization Rules
 
-### Именование файлов
+### File Naming
 
-- Компоненты: `ComponentName.tsx`
-- Хуки: `useHookName.ts`
-- Хуки: `useHookName.ts` для глобальных (в `src/hooks/`), `name-hooks.ts` если специфичны для компонента
-- Утилиты: `name-utils.ts` или `component-name-utils.ts` если специфичны для компонента
-- Типы: `name-types.ts` или `component-name-types.ts` если специфичны для компонента
-- Константы: `name-consts.ts` или `component-name-consts.ts` если специфичны для компонента
+- Components: `ComponentName.tsx`
+- Hooks: `useHookName.ts` for global ones (in `src/hooks/`), `name-hooks.ts` if component-specific
+- Utilities: `name-utils.ts` or `component-name-utils.ts` if component-specific
+- Types: `name-types.ts` or `component-name-types.ts` if component-specific
+- Constants: `name-consts.ts` or `component-name-consts.ts` if component-specific
 
-### Структура компонента
+### Component Structure
 
-Если компонент сложный и содержит несколько файлов:
+If a component is complex and contains multiple files:
 
 ```
 components/
@@ -123,21 +115,21 @@ components/
     user-card-hooks.ts
 ```
 
-Для простых компонентов - один файл:
+For simple components — one file:
 
 ```
 components/
   Button.tsx
 ```
 
-### Импорты
+### Imports
 
-- Используй относительные импорты от `src/` или абсолютные если настроены алиасы (согласно babel конфигу)
-- Пример: `import { Button } from '../components/Button'` или `import { Button } from '@components/Button'`
-- Избегай глубокой вложенности импортов (`../../../../`) - для этого есть алиасы (согласно babel конфигу)
+- Use relative imports from `src/` or absolute if aliases are configured (per babel config)
+- Example: `import { Button } from '../components/Button'` or `import { Button } from '@components/Button'`
+- Avoid deep import nesting (`../../../../`) — use aliases for that (per babel config)
 
-## Запрещенные практики
+## Forbidden Practices
 
-- Не создавай index файлы
-- Не создавай файлы в корне `src/`, все должно быть в соответствующих папках
-- Не дублируй код, выноси общее в утилиты или компоненты
+- Do not create index files
+- Do not create files in the root of `src/`, everything must be in the appropriate folders
+- Do not duplicate code, extract shared logic into utilities or components

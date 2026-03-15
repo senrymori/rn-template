@@ -1,4 +1,4 @@
 # AI General rule
 
-- Не создавай и не добавляй документацию (README, wiki, md-файлы и др.) в рамках задач по реализации кода
-- Запускай все команды не через npm, а через yarn
+- Do not create or add documentation (README, wiki, md files, etc.) as part of code implementation tasks
+- Run all commands using yarn, not npm
