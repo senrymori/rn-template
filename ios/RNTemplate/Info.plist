@@ -52,19 +52,19 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
-    <string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>icomoon.ttf</string>
 		<string>Manrope-Medium.ttf</string>
 		<string>Manrope-SemiBold.ttf</string>
 		<string>Manrope-ExtraBold.ttf</string>
 		<string>Manrope-Regular.ttf</string>
 		<string>Manrope-Light.ttf</string>
 		<string>Manrope-Bold.ttf</string>
+		<string>icomoon.ttf</string>
 	</array>
 </dict>
 </plist>
