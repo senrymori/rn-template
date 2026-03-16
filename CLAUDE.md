@@ -1,9 +1,9 @@
 # Claude Code Instructions
 
-Перед началом работы над любой задачей обязательно прочитай и учитывай документацию проекта:
+Before starting any task, make sure to read and follow the project documentation:
 
-- `docs/general.md` — общие правила
-- `docs/code-style.md` — стиль кода, нейминг, форматирование
-- `docs/structure.md` — структура проекта и организация файлов
+- `docs/general.md` — general rules
+- `docs/code-style.md` — code style, naming, formatting
+- `docs/structure.md` — project structure and file organization
 
-model: claude-sonnet-4-6
+model: claude-opus-4-6
